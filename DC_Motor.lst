@@ -1,0 +1,187 @@
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 1
+
+
+
+
+
+       MCS-51 Family Macro Assembler   A S E M - 5 1   V 1.3
+       =====================================================
+
+
+
+	Source File:	C:\Users\A.Setthawut\Desktop\Micro\DC motor\assembly\DC_Motor.asm
+	Object File:	C:\Users\A.Setthawut\Desktop\Micro\DC motor\assembly\DC_Motor.hex
+	List File:	C:\Users\A.Setthawut\Desktop\Micro\DC motor\assembly\DC_Motor.lst
+
+
+
+ Line  I  Addr  Code            Source
+
+    1:		D      0080	DATA_CONTROL 	EQU P0
+    2:		D      00A0	SELECT 		EQU P2
+    3:		B      00B6	WRITE_DATA 	EQU P3.6
+    4:		B      00B7	READ_DATA 	EQU P3.7
+    5:
+    6:		N      0000		ORG 0000H
+    7:	  0000	02 00 0E		LJMP MAIN
+    8:		N      000B		ORG 000BH
+    9:	  000B	02 00 1C		LJMP ISR_TIMER_0
+   10:
+   11:	  000E	7F 0A		MAIN :	MOV R7,#10D
+   12:	  0010	7E 14			MOV R6,#20D
+   13:	  0012	75 89 01		MOV TMOD,#01H
+   14:	  0015	75 A8 82		MOV IE,#82H
+   15:	  0018	D2 8D			SETB TF0
+   16:	  001A	80 FE			SJMP $
+   17:
+   18:	  001C	C2 8C		ISR_TIMER_0: CLR TR0
+   19:	  001E	DF 2D			DJNZ R7,SET_TIME
+   20:	  0020	DE 04			DJNZ R6,LOOP
+   21:	  0022	7E 14			MOV R6,#20D
+   22:	  0024	B2 AD			CPL IE.5
+   23:
+   24:	  0026	B2 D5		LOOP:	CPL PSW.5
+   25:	  0028	20 D5 0F		JB PSW.5,SWAPBIT
+   26:	  002B	7F 1E			MOV R7,#30D ; ------------ up
+   27:
+   28:	  002D	20 AD 05		JB IE.5,L_2
+   29:	  0030	7B 05			MOV R3,#05H
+   30:	  0032	02 00 3E		LJMP WRITEBIT
+   31:	  0035	7B 06		L_2:	MOV R3,#06H
+   32:	  0037	02 00 3E		LJMP WRITEBIT
+   33:
+   34:	  003A	7F 0A		SWAPBIT:MOV R7,#10D ;------------ down
+   35:	  003C	7B 00			MOV R3,#00H
+   36:	  003E	75 80 80	WRITEBIT: MOV DATA_CONTROL,#80H
+   37:	  0041	75 A0 FF		MOV SELECT,#0FFH
+   38:	  0044	C2 B6			CLR WRITE_DATA
+   39:	  0046	8B 80			MOV DATA_CONTROL,R3
+   40:	  0048	75 A0 F4		MOV SELECT,#0F4H
+   41:	  004B	C2 B6			CLR WRITE_DATA
+   42:	  004D	75 8C 3C	SET_TIME: MOV TH0,#03CH
+   43:	  0050	75 8A AF		MOV TL0,#0AFH
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 2
+
+
+
+ Line  I  Addr  Code            Source
+
+   44:	  0053	D2 8C			SETB TR0
+   45:	  0055	32			RETI
+   46:
+   47:					END
+
+
+
+
+
+                     register banks used:  ---
+
+                     no errors
+
+
+
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 3
+
+
+
+
+
+	       L I S T   O F   S Y M B O L S
+	       =============================
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+??ASEM_51			  NUMBER    8051
+??VERSION			  NUMBER    0130
+AC				  BIT	      D6
+ACC				  DATA	      E0
+B				  DATA	      F0
+CY				  BIT	      D7
+DATA_CONTROL			  NUMBER    0080	   1
+DPH				  DATA	      83
+DPL				  DATA	      82
+EA				  BIT	      AF
+ES				  BIT	      AC
+ET0				  BIT	      A9
+ET1				  BIT	      AB
+EX0				  BIT	      A8
+EX1				  BIT	      AA
+EXTI0				  CODE	    0003
+EXTI1				  CODE	    0013
+F0				  BIT	      D5
+IE				  DATA	      A8
+IE0				  BIT	      89
+IE1				  BIT	      8B
+INT0				  BIT	      B2
+INT1				  BIT	      B3
+IP				  DATA	      B8
+ISR_TIMER_0			  CODE	    001C	  18
+IT0				  BIT	      88
+IT1				  BIT	      8A
+LOOP				  CODE	    0026	  24
+L_2				  CODE	    0035	  31
+MAIN				  CODE	    000E	  11
+OV				  BIT	      D2
+P				  BIT	      D0
+P0				  DATA	      80
+P1				  DATA	      90
+P2				  DATA	      A0
+P3				  DATA	      B0
+PCON				  DATA	      87
+PS				  BIT	      BC
+PSW				  DATA	      D0
+PT0				  BIT	      B9
+PT1				  BIT	      BB
+PX0				  BIT	      B8
+PX1				  BIT	      BA
+RB8				  BIT	      9A
+RD				  BIT	      B7
+READ_DATA			  NUMBER    00B7	   4
+REN				  BIT	      9C
+RESET				  CODE	    0000
+RI				  BIT	      98
+RS0				  BIT	      D3
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 4
+
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+RS1				  BIT	      D4
+RXD				  BIT	      B0
+SBUF				  DATA	      99
+SCON				  DATA	      98
+SELECT				  NUMBER    00A0	   2
+SET_TIME			  CODE	    004D	  42
+SINT				  CODE	    0023
+SM0				  BIT	      9F
+SM1				  BIT	      9E
+SM2				  BIT	      9D
+SP				  DATA	      81
+SWAPBIT				  CODE	    003A	  34
+T0				  BIT	      B4
+T1				  BIT	      B5
+TB8				  BIT	      9B
+TCON				  DATA	      88
+TF0				  BIT	      8D
+TF1				  BIT	      8F
+TH0				  DATA	      8C
+TH1				  DATA	      8D
+TI				  BIT	      99
+TIMER0				  CODE	    000B
+TIMER1				  CODE	    001B
+TL0				  DATA	      8A
+TL1				  DATA	      8B
+TMOD				  DATA	      89
+TR0				  BIT	      8C
+TR1				  BIT	      8E
+TXD				  BIT	      B1
+WR				  BIT	      B6
+WRITEBIT			  CODE	    003E	  36
+WRITE_DATA			  NUMBER    00B6	   3
